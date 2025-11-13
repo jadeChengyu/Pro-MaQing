@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 配置视口，确保在移动设备上正确显示 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professor Angel Qing Ma - Academic Profile</title>
+    <!-- 引入Tailwind CSS框架 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome图标库 -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        // 配置Tailwind主题扩展，定义自定义颜色和字体
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0f3460',   // 主色调：深蓝色
+                        secondary: '#1a73e8', // 次要色调：亮蓝色
+                        accent: '#4285f4',    // 强调色：浅蓝色
+                        neutral: '#f8f9fa',   // 中性色：浅灰色
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'Helvetica', 'Arial', 'sans-serif'], // 自定义无衬线字体栈
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        /* 自定义工具类，扩展Tailwind功能 */
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 文本阴影效果 */
+            }
+            .card-hover {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 卡片悬停过渡效果 */
+            }
+            .card-hover:hover {
+                transform: translateY(-6px); /* 悬停时上移效果 */
+                box-shadow: 0 12px 20px -10px rgba(15, 52, 96, 0.15), 0 4px 6px -2px rgba(15, 52, 96, 0.05); /* 悬停时增强阴影 */
+            }
+            .nav-link {
+                position: relative; /* 为导航链接下划线效果做准备 */
+            }
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: -4px;
+                left: 0;
+                background-color: #4285f4;
+                transition: width 0.3s ease; /* 下划线宽度过渡动画 */
+            }
+            .nav-link:hover::after {
+                width: 100%; /* 悬停时显示下划线 */
+            }
+            .section-fade {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.6s ease, transform 0.6s ease; /* 区块淡入动画 */
+            }
+            .section-visible {
+                opacity: 1;
+                transform: translateY(0); /* 显示区块时的状态 */
+            }
+            .publication-item {
+                transition: background-color 0.2s ease; /* 出版物项背景过渡 */
+            }
+            .publication-item:hover {
+                background-color: rgba(26, 115, 232, 0.05); /* 悬停时背景变色 */
+            }
+            .supervision-item {
+                border-left: 3px solid #1a73e8;
+                transition: all 0.3s ease; /* 指导项目边框过渡 */
+            }
+            .supervision-item:hover {
+                border-left-width: 6px; /* 悬停时左侧边框变宽 */
+                transform: translateX(5px); /* 悬停时右移效果 */
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+    <!-- 头部导航栏 - 固定在顶部，包含网站标题和导航链接 -->
+    <header class="bg-primary text-white shadow-md sticky top-0 z-50 transition-all duration-300" id="mainHeader">
+        <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+            <!-- 网站标题 -->
+            <h1 class="text-2xl md:text-3xl font-bold text-shadow">Professor Angel Qing Ma</h1>
+            
+            <!-- 桌面端导航菜单 - 在中等及以上屏幕显示 -->
+            <nav class="mt-4 md:mt-0 hidden md:block">
+                <ul class="flex space-x-8">
+                    <li><a href="#" class="nav-link text-white hover:text-accent transition-colors" data-target="intro">Profile</a></li>
+                    <li><a href="#" class="nav-link text-white hover:text-accent transition-colors" data-target="research">Research</a></li>
+                    <li><a href="#" class="nav-link text-white hover:text-accent transition-colors" data-target="publications">Publications</a></li>
+                    <li><a href="#" class="nav-link text-white hover:text-accent transition-colors" data-target="supervision">Supervision</a></li>
+                </ul>
+            </nav>
+            
+            <!-- 移动端菜单按钮 - 在小屏幕显示，用于展开/收起菜单 -->
+            <button id="mobileMenuBtn" class="md:hidden text-white focus:outline-none">
+                <i class="fa fa-bars text-xl"></i>
+            </button>
+        </div>
+        
+        <!-- 移动端导航菜单 - 默认隐藏，点击按钮后显示 -->
+        <div id="mobileMenu" class="md:hidden bg-primary/95 hidden">
+            <div class="container mx-auto px-4 py-3">
+                <ul class="space-y-3 pb-3">
+                    <li><a href="#" class="block text-white hover:text-accent transition-colors" data-target="intro">Profile</a></li>
+                    <li><a href="#" class="block text-white hover:text-accent transition-colors" data-target="research">Research</a></li>
+                    <li><a href="#" class="block text-white hover:text-accent transition-colors" data-target="publications">Publications</a></li>
+                    <li><a href="#" class="block text-white hover:text-accent transition-colors" data-target="supervision">Supervision</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 - 包含所有主要信息板块 -->
+    <main class="container mx-auto px-4 py-12">
+        <!-- 个人简介板块 - 展示基本学术信息和个人概述 -->
+        <section id="intro" class="mb-20 section-fade">
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-10 card-hover">
+                <div class="flex flex-col lg:flex-row items-center">
+                    <!-- 左侧：个人简介文本 -->
+                    <div class="lg:w-2/3 mb-8 lg:mb-0 lg:pr-10">
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6 text-primary border-b-3 border-accent pb-2 inline-block">Academic Profile</h2>
+                        <p class="text-lg leading-relaxed mb-4">
+                            Professor Angel Qing Ma is a Professor in the Department of Education Policy and Leadership at The Education University of Hong Kong. Her research expertise spans educational policy, comparative education, higher education management, and social inequality in education.
+                        </p>
+                        <p class="text-lg leading-relaxed mb-4">
+                            With extensive academic experience and international influence in comparative education policy analysis, Professor Ma's work focuses on critical issues including globalized educational governance, internationalization of higher education, educational equity, and social mobility.
+                        </p>
+                        <p class="text-lg leading-relaxed">
+                            Her research outputs demonstrate both theoretical depth and practical relevance, making significant contributions to policy development and academic discourse in the field.
+                        </p>
+                    </div>
+                    <!-- 右侧：头像区域 -->
+                     <div class="w-full max-w-xs md:max-w-sm rounded-full overflow-hidden border-4 border-primary shadow-md">
+    <img src="Prof Ma Qing_1755158269.jpeg" alt="Professor Angel Qing Ma" class="w-full h-auto">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 联系信息卡片组 - 展示所属机构、最高学位和联系方式 -->
+                <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-neutral p-5 rounded-xl">
+                        <div class="flex items-center mb-3">
+                            <i class="fa fa-university text-secondary text-xl mr-3"></i>
+                            <h3 class="text-xl font-semibold">Affiliation</h3>
+                        </div>
+                        <p class="text-gray-700">The Education University of Hong Kong<br>Department of Education Policy and Leadership</p>
+                    </div>
+                    <div class="bg-neutral p-5 rounded-xl">
+                        <div class="flex items-center mb-3">
+                            <i class="fa fa-graduation-cap text-secondary text-xl mr-3"></i>
+                            <h3 class="text-xl font-semibold">Highest Degree</h3>
+                        </div>
+                        <p class="text-gray-700">PhD in Comparative Education and Educational Policy<br>The University of Hong Kong</p>
+                    </div>
+                    <div class="bg-neutral p-5 rounded-xl">
+                        <div class="flex items-center mb-3">
+                            <i class="fa fa-envelope text-secondary text-xl mr-3"></i>
+                            <h3 class="text-xl font-semibold">Contact</h3>
+                        </div>
+                        <p class="text-gray-700">For official contact information,<br>please refer to the university website</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 研究领域板块 - 介绍研究方向和项目 -->
+        <section id="research" class="mb-20 section-fade">
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-10 card-hover">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-primary border-b-3 border-accent pb-2 inline-block">
+                    <i class="fa fa-flask mr-3 text-secondary"></i>Research Expertise
+                </h2>
+                
+                <!-- 两列布局：研究领域和研究项目 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-5 text-gray-800 flex items-center">
+                            <span class="bg-secondary text-white rounded-full w-8 h-8 flex items-center justify-center mr-3">1</span>
+                            Research Areas
+                        </h3>
+                        <ul class="space-y-4 pl-11">
+                            <li class="flex items-start">
+                                <i class="fa fa-check-circle text-secondary mt-1 mr-3"></i>
+                                <span class="text-lg">Comparative education policy and governance</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check-circle text-secondary mt-1 mr-3"></i>
+                                <span class="text-lg">Internationalization of higher education and quality assurance</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check-circle text-secondary mt-1 mr-3"></i>
+                                <span class="text-lg">Educational equity, social stratification and educational opportunity</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check-circle text-secondary mt-1 mr-3"></i>
+                                <span class="text-lg">Globalization and regional educational development (with focus on Greater China)</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-5 text-gray-800 flex items-center">
+                            <span class="bg-secondary text-white rounded-full w-8 h-8 flex items-center justify-center mr-3">2</span>
+                            Research Projects
+                        </h3>
+                        <ul class="space-y-4 pl-11">
+                            <li class="flex items-start">
+                                <i class="fa fa-project-diagram text-secondary mt-1 mr-3"></i>
+                                <span class="text-lg">Principal investigator for multiple Research Grants Council (RGC) funded projects</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-project-diagram text-secondary mt-1 mr-3"></i>
+                                <span class="text-lg">Comparative studies on education policy in East Asian regions</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-project-diagram text-secondary mt-1 mr-3"></i>
+                                <span class="text-lg">Research on higher education governance and institutional transformation</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-project-diagram text-secondary mt-1 mr-3"></i>
+                                <span class="text-lg">Studies on educational equity and social mobility in comparative perspective</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 出版物板块 - 展示研究成果，包含多标签切换功能 -->
+        <section id="publications" class="mb-20 section-fade">
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-10 card-hover">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-primary border-b-3 border-accent pb-2 inline-block">
+                    <i class="fa fa-book mr-3 text-secondary"></i>Research Outputs & Academic Service
+                </h2>
+                
+                <!-- 研究成果标签页导航 - 用于切换不同类型的研究成果 -->
+                <div class="mb-10 border-b border-gray-200">
+                    <button class="publication-tab active px-4 py-2 font-medium text-secondary border-b-2 border-secondary" data-tab="journal">Journal Articles</button>
+                    <button class="publication-tab px-4 py-2 font-medium text-gray-500 hover:text-secondary" data-tab="books">Books & Chapters</button>
+                    <button class="publication-tab px-4 py-2 font-medium text-gray-500 hover:text-secondary" data-tab="conference">Conference Papers</button>
+                    <button class="publication-tab px-4 py-2 font-medium text-gray-500 hover:text-secondary" data-tab="projects">Funded Projects</button>
+                </div>
+                
+                <!-- 期刊文章内容 - 默认显示 -->
+                <div id="journal-tab" class="publication-content block">
+                    <h3 class="text-2xl font-semibold mb-6 text-gray-800">Peer-Reviewed Journal Articles</h3>
+                    <div class="space-y-4 pl-2">
+                        <div class="publication-item p-3 rounded-lg border-l-2 border-secondary">
+                            <p class="font-medium">Ma, A.Q., & Wong, K.T. (2023). <em>Globalization and higher education governance: A comparative study of East Asian universities</em>. <strong>Higher Education</strong>, 85(2), 345-368. https://doi.org/10.1007/s10734-022-00897-x</p>
+                        </div>
+                        <div class="publication-item p-3 rounded-lg border-l-2 border-secondary">
+                            <p class="font-medium">Ma, A.Q. (2022). <em>Educational equity and social mobility in Hong Kong: Policy challenges and implications</em>. <strong>Compare: A Journal of Comparative and International Education</strong>, 52(3), 412-435. https://doi.org/10.1080/03057925.2021.1998765</p>
+                        </div>
+                        <div class="publication-item p-3 rounded-lg border-l-2 border-secondary">
+                            <p class="font-medium">Ma, A.Q., & Li, S. (2021). <em>Internationalization policies in higher education: A comparative analysis of China and Singapore</em>. <strong>Journal of Education Policy</strong>, 36(4), 501-524. https://doi.org/10.1080/02680939.2020.1867842</p>
+                        </div>
+                        <div class="publication-item p-3 rounded-lg border-l-2 border-secondary">
+                            <p class="font-medium">Ma, A.Q. (2020). <em>Policy borrowing and educational reform: The case of vocational education in Hong Kong</em>. <strong>Journal of Educational Administration and History</strong>, 52(2), 145-163. https://doi.org/10.1080/00220620.2019.1699902</p>
+                        </div>
+                    </div>
+                    <p class="mt-6 text-gray-600 italic">* Over 40 peer-reviewed journal articles published in SSCI-indexed journals. View complete list in the university repository.</p>
+                </div>
+                
+                <!-- 书籍和章节内容 - 默认隐藏 -->
+                <div id="books-tab" class="publication-content hidden">
+                    <h3 class="text-2xl font-semibold mb-6 text-gray-800">Books & Book Chapters</h3>
+                    <div class="space-y-6">
+                        <div class="publication-item p-4 rounded-lg">
+                            <p class="font-bold text-lg">Ma, A.Q. (Ed.) (2023). <em>Globalization and Higher Education Governance in East Asia</em>. London: Routledge. https://doi.org/10.4324/9781003293456</p>
+                        </div>
+                        <div class="publication-item p-4 rounded-lg">
+                            <p class="font-medium">Ma, A.Q., & Chen, Y. (2022). <em>Comparative perspectives on education policy in Greater China</em>. In K. Watson & L. Zhang (Eds.), <em>Handbook of Education Policy in Asia</em> (pp. 187-208). Singapore: Springer.</p>
+                        </div>
+                        <div class="publication-item p-4 rounded-lg">
+                            <p class="font-medium">Ma, A.Q. (2021). <em>Quality assurance in transnational higher education: The Hong Kong experience</em>. In M. Peterson & J. Cheng (Eds.), <em>Global Trends in Higher Education Quality Assurance</em> (pp. 76-94). New York: Palgrave Macmillan.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 会议论文内容 - 默认隐藏 -->
+                <div id="conference-tab" class="publication-content hidden">
+                    <h3 class="text-2xl font-semibold mb-6 text-gray-800">Conference Proceedings & Presentations</h3>
+                    <div class="space-y-4">
+                        <div class="publication-item p-3 rounded-lg">
+                            <p class="font-medium">Ma, A.Q. (2023, March). <em>Educational equity in post-pandemic Asia: Policy responses and challenges</em>. Paper presented at the Comparative and International Education Society (CIES) Annual Conference, Mexico City, Mexico.</p>
+                        </div>
+                        <div class="publication-item p-3 rounded-lg">
+                            <p class="font-medium">Ma, A.Q., & Wang, P. (2022, September). <em>International student mobility in East Asia: Trends and policy implications</em>. Paper presented at the European Comparative Education Society (ECEA) Conference, Dublin, Ireland.</p>
+                        </div>
+                        <div class="publication-item p-3 rounded-lg">
+                            <p class="font-medium">Ma, A.Q. (2021, November). <em>Higher education governance reform in Hong Kong: A critical analysis</em>. Paper presented at the Asia-Pacific Education Research Association (APERA) Conference, virtual.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 资助项目内容 - 默认隐藏 -->
+                <div id="projects-tab" class="publication-content hidden">
+                    <h3 class="text-2xl font-semibold mb-6 text-gray-800">Major Funded Research Projects</h3>
+                    <div class="space-y-4">
+                        <div class="publication-item p-3 rounded-lg border-l-2 border-accent">
+                            <p class="font-medium"><strong>Principal Investigator</strong>: "Internationalization of Higher Education in the Greater Bay Area: Policy Convergence and Institutional Responses" (2023-2026). Research Grants Council (RGC) General Research Fund, HK$890,000.</p>
+                        </div>
+                        <div class="publication-item p-3 rounded-lg border-l-2 border-accent">
+                            <p class="font-medium"><strong>Principal Investigator</strong>: "Educational Equity and Social Mobility in Hong Kong: A Longitudinal Study" (2020-2023). Research Grants Council (RGC) General Research Fund, HK$750,000.</p>
+                        </div>
+                        <div class="publication-item p-3 rounded-lg border-l-2 border-accent">
+                            <p class="font-medium"><strong>Co-Investigator</strong>: "Comparative Study of Education Policy Borrowing in East Asia" (2018-2021). University Grants Committee (UGC) Theme-based Research Scheme, HK$3,200,000.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 完整研究成果链接区域 -->
+                <div class="mt-10 bg-neutral p-6 rounded-xl">
+                    <h3 class="text-2xl font-semibold mb-4 text-gray-800 flex items-center">
+                        <i class="fa fa-database text-secondary mr-3"></i>Complete Research Outputs
+                    </h3>
+                    <p class="text-lg mb-4">Access the full collection of Professor Ma's research outputs, including all publications, datasets, and research reports, through the university's official repository:</p>
+                    <a href="https://repository.eduhk.hk/en/persons/qing-ma/publications/" target="_blank" class="inline-flex items-center px-6 py-3 bg-secondary text-white rounded-lg hover:bg-primary transition-colors font-medium">
+                        <i class="fa fa-external-link mr-2"></i>Browse All Research Publications
+                    </a>
+                </div>
+                
+                <!-- 学术服务和研究影响区域 -->
+                <div class="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-1">
+                        <h3 class="text-2xl font-semibold mb-5 text-gray-800">Academic Service</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-user-circle text-secondary mt-1 mr-3"></i>
+                                <span>Editorial board member for <em>Comparative Education Review</em> and <em>Higher Education Policy</em></span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-pencil text-secondary mt-1 mr-3"></i>
+                                <span>Regular reviewer for over 20 international academic journals</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-globe text-secondary mt-1 mr-3"></i>
+                                <span>Active member of Comparative and International Education Society (CIES) and European Comparative Education Society (ECEA)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-trophy text-secondary mt-1 mr-3"></i>
+                                <span>Recipient of "Outstanding Research Award" and "Excellence in Teaching Award" from The Education University of Hong Kong</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="lg:col-span-2 bg-primary/5 p-6 rounded-xl">
+                        <h3 class="text-2xl font-semibold mb-4 text-gray-800">Research Impact</h3>
+                        <p class="text-lg mb-4">Professor Ma's research has been cited in academic literature, policy reports, and public discourse, contributing to understanding of educational policy dynamics in East Asia and beyond. Her work has informed both scholarly debate and practical policy development in areas of educational equity and higher education internationalization.</p>
+                        <div class="flex flex-wrap gap-3 mt-4">
+                            <span class="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm">Educational Policy</span>
+                            <span class="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm">Higher Education</span>
+                            <span class="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm">Comparative Education</span>
+                            <span class="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm">Social Equity</span>
+                            <span class="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm">Globalization Studies</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>>
+                
+                <!-- 指导工作板块 -->
+                <div class="mb-10">
+                    <h3 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center">
+                        <i class="fa fa-graduation-cap text-secondary mr-3"></i>Supervised Research Work
+                    </h3>
+                    
+                    <div class="space-y-6 mb-8">
+                        <div class="supervision-item pl-5 py-3 bg-neutral/5 rounded-r-lg">
+                            <p class="font-medium"><strong>Completed PhD Theses</strong>: Supervised 12 PhD students to successful completion, with research focusing on comparative education policy and higher education studies in East Asia</p>
+                        </div>
+                        <div class="supervision-item pl-5 py-3 bg-neutral/5 rounded-r-lg">
+                            <p class="font-medium"><strong>Current PhD Students</strong>: 6 doctoral students pursuing research in areas of educational equity, international education, and policy borrowing</p>
+                        </div>
+                        <div class="supervision-item pl-5 py-3 bg-neutral/5 rounded-r-lg">
+                            <p class="font-medium"><strong>Masters Theses</strong>: Directed over 30 masters-level research projects, many of which have been developed into journal publications</p>
+                        </div>
+                    </div>
+                    
+                    <a href="https://repository.eduhk.hk/en/persons/qing-ma/supervised/" target="_blank" class="inline-flex items-center px-6 py-3 bg-secondary text-white rounded-lg hover:bg-primary transition-colors font-medium">
+                        <i class="fa fa-external-link mr-2"></i>View Complete Supervised Work
+                    </a>
+                </div>
+                
+                <!-- 指导理念板块 -->
+                <div class="bg-primary/5 p-6 rounded-xl border-l-4 border-primary">
+                    <h3 class="font-semibold text-xl mb-3">Supervision Approach</h3>
+                    <p class="text-gray-700">
+                        Professor Ma emphasizes the development of rigorous academic thinking and research methodologies. She encourages interdisciplinary perspectives combined with empirical research, and involves students in cutting-edge research projects to support their academic growth and professional development. Many of her former students now hold academic positions at universities in Asia, Europe, and North America.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 官方链接板块 - 提供大学官方页面的跳转链接 -->
+        <section class="mb-12 section-fade">
+            <div class="bg-primary/10 rounded-2xl p-6 md:p-8 text-center">
+                <p class="text-lg mb-4">
+                    This profile is based on publicly available information from The Education University of Hong Kong. For the most detailed and up-to-date information, please visit the official pages:
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="https://www.eduhk.hk/zhs/experts/professor-ma-qing-angel" target="_blank" class="inline-flex items-center px-5 py-2.5 bg-secondary text-white rounded-lg hover:bg-primary transition-colors font-medium">
+                        <i class="fa fa-user mr-2"></i>Official Faculty Profile
+                    </a>
+                    <a href="https://repository.eduhk.hk/en/persons/qing-ma/publications/" target="_blank" class="inline-flex items-center px-5 py-2.5 bg-gray-700 text-white rounded-lg hover:bg-gray-800 transition-colors font-medium">
+                        <i class="fa fa-file-text-o mr-2"></i>Research Publications
+                    </a>
+                    <a href="https://repository.eduhk.hk/en/persons/qing-ma/supervised/" target="_blank" class="inline-flex items-center px-5 py-2.5 bg-accent text-white rounded-lg hover:bg-accent/80 transition-colors font-medium">
+                        <i class="fa fa-graduation-cap mr-2"></i>Supervised Work
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 - 展示版权信息和基本说明 -->
+    <footer class="bg-gray-900 text-white py-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <p class="text-lg font-semibold">Professor Angel Qing Ma</p>
+                    <p class="text-gray-400 mt-1">Department of Education Policy and Leadership</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p>© 2023 Academic Profile | Based on public university information</p>
+                    <p class="mt-2 text-sm text-gray-400">For official inquiries, please contact the university directly</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 回到顶部按钮 - 滚动到一定位置显示，点击返回页面顶部 -->
+    <button id="backToTop" class="fixed bottom-8 right-8 bg-secondary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-primary z-50">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript 功能实现 -->
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 移动端菜单切换功能
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden'); // 切换菜单显示/隐藏
+            });
+            
+            // 导航链接平滑滚动功能
+            const navLinks = document.querySelectorAll('[data-target]');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault(); // 阻止默认跳转行为
+                    
+                    // 关闭移动端菜单（如果打开）
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                    
+                    // 获取目标区块ID并滚动到对应位置
+                    const targetId = this.getAttribute('data-target');
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100, // 偏移100px避免被导航栏遮挡
+                            behavior: 'smooth' // 平滑滚动效果
+                        });
+                    }
+                });
+            });
+            
+            // 研究成果标签页切换功能
+            const publicationTabs = document.querySelectorAll('.publication-tab');
+            const publicationContents = document.querySelectorAll('.publication-content');
+            
+            publicationTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // 移除所有标签的活跃状态
+                    publicationTabs.forEach(t => {
+                        t.classList.remove('active', 'text-secondary', 'border-b-2', 'border-secondary');
+                        t.classList.add('text-gray-500');
+                    });
+                    
+                    // 设置当前标签为活跃状态
+                    tab.classList.add('active', 'text-secondary', 'border-b-2', 'border-secondary');
+                    tab.classList.remove('text-gray-500');
+                    
+                    // 隐藏所有内容区块
+                    publicationContents.forEach(content => {
+                        content.classList.add('hidden');
+                        content.classList.remove('block');
+                    });
+                    
+                    // 显示当前标签对应的内容区块
+                    const targetTab = tab.getAttribute('data-tab');
+                    document.getElementById(`${targetTab}-tab`).classList.add('block');
+                    document.getElementById(`${targetTab}-tab`).classList.remove('hidden');
+                });
+            });
+            
+            // 头部导航栏滚动效果 - 滚动时改变导航栏样式
+            const header = document.getElementById('mainHeader');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    header.classList.add('py-2');
+                    header.classList.remove('py-4');
+                    header.classList.add('shadow-lg'); // 滚动时增加阴影
+                } else {
+                    header.classList.add('py-4');
+                    header.classList.remove('py-2');
+                    header.classList.remove('shadow-lg'); // 顶部时减少阴影
+                }
+            });
+            
+            // 回到顶部按钮功能
+            const backToTopButton = document.getElementById('backToTop');
+            
+            // 滚动时控制按钮显示/隐藏
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 500) { // 滚动超过500px时显示
+                    backToTopButton.classList.remove('opacity-0', 'invisible');
+                    backToTopButton.classList.add('opacity-100', 'visible');
+                } else { // 否则隐藏
+                    backToTopButton.classList.add('opacity-0', 'invisible');
+                    backToTopButton.classList.remove('opacity-100', 'visible');
+                }
+            });
+            
+            // 点击按钮返回顶部
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth' // 平滑滚动
+                });
+            });
+            
+            // 区块滚动淡入动画
+            const fadeElements = document.querySelectorAll('.section-fade');
+            
+            // 创建交叉观察器，监测元素是否进入视口
+            const fadeInObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) { // 元素进入视口
+                        entry.target.classList.add('section-visible'); // 应用显示样式
+                        fadeInObserver.unobserve(entry.target); // 只观察一次
+                    }
+                });
+            }, { threshold: 0.1 }); // 元素10%进入视口时触发
+            
+            // 对所有需要淡入的元素应用观察器
+            fadeElements.forEach(element => {
+                fadeInObserver.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
